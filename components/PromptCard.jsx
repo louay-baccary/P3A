@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
+import TurnItToNftButton from "./Buttons/TurnItToNftButton";
 
 const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
   const { data: session } = useSession();
@@ -27,31 +28,31 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
   };
 
   return (
-    <div className='prompt_card'>
-      <div className='flex justify-between items-start gap-5'>
+    <div className="prompt_card">
+      <div className="flex items-start justify-between gap-5">
         <div
-          className='flex-1 flex justify-start items-center gap-3 cursor-pointer'
+          className="flex items-center justify-start flex-1 gap-3 cursor-pointer"
           onClick={handleProfileClick}
         >
           <Image
             src={post.creator.image}
-            alt='user_image'
+            alt="user_image"
             width={40}
             height={40}
-            className='rounded-full object-contain'
+            className="object-contain rounded-full"
           />
 
-          <div className='flex flex-col'>
-            <h3 className='font-satoshi font-semibold text-gray-900'>
+          <div className="flex flex-col">
+            <h3 className="font-semibold text-gray-900 font-satoshi">
               {post.creator.username}
             </h3>
-            <p className='font-inter text-sm text-gray-500'>
+            <p className="text-sm text-gray-500 font-inter">
               {post.creator.email}
             </p>
           </div>
         </div>
 
-        <div className='copy_btn' onClick={handleCopy}>
+        <div className="copy_btn" onClick={handleCopy}>
           <Image
             src={
               copied === post.prompt
@@ -65,30 +66,33 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
         </div>
       </div>
 
-      <p className='my-4 font-satoshi text-sm text-gray-700'>{post.prompt}</p>
+      <p className="my-4 text-sm text-gray-700 font-satoshi">{post.prompt}</p>
       <p
-        className='font-inter text-sm blue_gradient cursor-pointer'
+        className="text-sm cursor-pointer font-inter blue_gradient"
         onClick={() => handleTagClick && handleTagClick(post.tag)}
       >
         #{post.tag}
       </p>
 
       {session?.user.id === post.creator._id && pathName === "/profile" && (
-        <div className='mt-5 flex-center gap-4 border-t border-gray-100 pt-3'>
+        <div className="gap-4 pt-3 mt-5 border-t border-gray-100 flex-center">
           <p
-            className='font-inter text-sm green_gradient cursor-pointer'
+            className="text-sm cursor-pointer font-inter green_gradient"
             onClick={handleEdit}
           >
             Edit
           </p>
           <p
-            className='font-inter text-sm orange_gradient cursor-pointer'
+            className="text-sm cursor-pointer font-inter orange_gradient"
             onClick={handleDelete}
           >
             Delete
           </p>
         </div>
       )}
+      <div className="flex items-center justify-center gap-4 mt-5">
+        <TurnItToNftButton />
+      </div>
     </div>
   );
 };
